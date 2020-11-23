@@ -1,0 +1,72 @@
+<head>
+	<!-- Load plotly.js into the DOM -->
+	<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+</head>
+<body>
+	<script>
+
+var n = 0;
+var data;
+var name;
+var layout = {
+    autosize: true,
+    height: window.innerHeight,
+    font: {size: 18},
+    title: ""
+};
+var config = {responsive: true}
+var toPlot = [];
+
+function plot() {
+    var div = document.createElement('div');
+    div.id="myDiv" + n;
+    document.getElementById("main").appendChild(div);
+    Plotly.newPlot('myDiv' + n, toPlot, layout,config);
+    n++;
+    toPlot=[];
+}
+
+function prepare(data, name) {
+    data.sort((a,b) => { return b.x-a.x });
+    var toPlot = {
+      y: data.map(e => e.y),
+      x: data.map(e => e.x),
+      text: data.map(e=>e.m),
+      name: name,
+      line: {
+        width: 1
+      }
+    };
+    return toPlot;
+}
+
+function globals(newdata, newname) {
+    data=newdata;
+    name=newname;
+    toPlot.push(prepare(data, name));
+}
+
+function onFileSelect() {
+    files = document.querySelector("#file-input").files;
+    for(i = 0; i < files.length; i++) {
+        file = files[i];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+        	var contents = e.target.result;
+        	globals(JSON.parse(contents), e.target.file.name);
+        };
+        reader.file=file
+        reader.readAsText(file);
+    }
+}
+
+function main() {
+    document.getElementById("file-input").addEventListener('change', onFileSelect);
+}
+
+	</script>
+    <body onload="main();">
+	<div id='main'></div>
+    <input type="file" id="file-input" multiple />
+    <button onclick="plot()">Plot</button>
+</body>
