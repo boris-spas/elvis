@@ -12,7 +12,9 @@ var layout = {
     autosize: true,
     height: window.innerHeight,
     font: {size: 18},
-    title: ""
+    title: "",
+    xaxis: { title: { text: '' } },
+    yaxis: { title: { text: '' } },
 };
 var config = {responsive: true}
 var toPlot = [];
@@ -37,6 +39,10 @@ function prepare(data, name) {
         width: 1
       }
     };
+    titleObjs = data.filter(e => e.xtitle);
+    layout.xaxis.title.text = titleObjs.length == 0 ? "" : titleObjs[0].xtitle;
+    titleObjs = data.filter(e => e.ytitle);
+    layout.yaxis.title.text = titleObjs.length == 0 ? "" : titleObjs[0].ytitle;
     return toPlot;
 }
 
