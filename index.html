@@ -10,13 +10,23 @@ var data;
 var name;
 var layout = {
     autosize: true,
-    height: window.innerHeight,
-    font: {size: 18},
-    title: "",
+    height: 0.9 * window.innerHeight,
+    font: {size: 16},
+    title: "Plot",
     xaxis: { title: { text: '' } },
     yaxis: { title: { text: '' } },
 };
-var config = {responsive: true}
+var config = {responsive: true,
+    editable: true,
+    toImageButtonOptions: {
+        format: 'svg', // one of png, svg, jpeg, webp
+        filename: 'elvis_plot',
+        height: 1080,
+        width: 1920,
+        scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+      },
+    scrollZoom: true
+}
 var toPlot = [];
 
 function plot() {
@@ -31,8 +41,8 @@ function plot() {
 function prepare(data, name) {
     data.sort((a,b) => { return b.x-a.x });
     var toPlot = {
-      y: data.map(e => e.y),
-      x: data.map(e => e.x),
+      y: data.filter(e=>e.y).map(e => e.y),
+      x: data.filter(e=>e.x).map(e => e.x),
       text: data.map(e=>e.m),
       name: name,
       line: {
