@@ -40,8 +40,8 @@ function plot() {
 function prepare(data, name) {
     data.sort((a,b) => { return b.x-a.x });
     var toPlot = {
-      y: data.filter(e=>e.y).map(e => e.y),
-      x: data.filter(e=>e.x).map(e => e.x),
+      y: data.filter(e=>"y" in e).map(e => e.y),
+      x: data.filter(e=>"x" in e).map(e => e.x),
       text: data.map(e=>e.m),
       name: name,
       line: {
