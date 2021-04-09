@@ -38,7 +38,7 @@ function plot() {
 }
 
 function prepare(data, name) {
-    data.sort((a,b) => { return b.x-a.x });
+    data.sort((a,b) => { return parseFloat(a.x) - parseFloat(b.x) });
     var toPlot = {
       y: data.filter(e=>"y" in e).map(e => e.y),
       x: data.filter(e=>"x" in e).map(e => e.x),
@@ -46,6 +46,13 @@ function prepare(data, name) {
       name: name,
       line: {
         width: 1
+      },
+      error_y: {
+        type: "data",
+        array: data.filter(e=>"e" in e).map(e => e.e),
+        visible: true,
+        opacity: 0.1,
+        thickness: 1
       }
     };
     titleObjs = data.filter(e => e.xtitle);
