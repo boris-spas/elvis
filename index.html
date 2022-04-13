@@ -1,13 +1,9 @@
 <head>
-	<!-- Load plotly.js into the DOM -->
+    <!-- Load plotly.js into the DOM -->
     <script src="https://cdn.plot.ly/plotly-1.57.1.min.js"></script>
 </head>
-<body>
-	<script>
-
+<script>
 var n = 0;
-var data;
-var name;
 var layout = {
     autosize: true,
     height: 0.9 * window.innerHeight,
@@ -16,7 +12,7 @@ var layout = {
     xaxis: { title: { text: '' } },
     yaxis: { title: { text: '' } },
 };
-var config = {responsive: true,
+const config = {responsive: true,
     editable: true,
     toImageButtonOptions: {
         format: 'svg', // one of png, svg, jpeg, webp
@@ -32,7 +28,7 @@ function plot() {
     var div = document.createElement('div');
     div.id="myDiv" + n;
     document.getElementById("main").appendChild(div);
-    Plotly.newPlot('myDiv' + n, toPlot, layout,config);
+    Plotly.newPlot('myDiv' + n, toPlot, layout, config);
     n++;
     toPlot=[];
 }
@@ -62,10 +58,8 @@ function prepare(data, name) {
     return toPlot;
 }
 
-function globals(newdata, newname) {
-    data=newdata;
-    name=newname;
-    toPlot.push(prepare(data, name));
+function pushToPlot(newdata, newname) {
+    toPlot.push(prepare(newdata, newname));
 }
 
 function onFileSelect() {
@@ -74,8 +68,8 @@ function onFileSelect() {
         file = files[i];
         var reader = new FileReader();
         reader.onload = function(e) {
-        	var contents = e.target.result;
-        	globals(JSON.parse(contents), e.target.file.name);
+            var contents = e.target.result;
+            pushToPlot(JSON.parse(contents), e.target.file.name);
         };
         reader.file=file
         reader.readAsText(file);
@@ -86,9 +80,9 @@ function main() {
     document.getElementById("file-input").addEventListener('change', onFileSelect);
 }
 
-	</script>
-    <body onload="main();">
-	<div id='main'></div>
+</script>
+<body onload="main();">
+    <div id='main'></div>
     <input type="file" id="file-input" multiple />
     <button onclick="plot()">Plot</button>
 </body>
