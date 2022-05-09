@@ -99,5 +99,5 @@
 { "x" : "98", "y" : "98", "e" : "0.98", "m" : "Example Point 98"},
 { "x" : "99", "y" : "99", "e" : "0.99", "m" : "Example Point 99"},
 { "x" : "100", "y" : "100", "e" : "0.100", "m" : "Example Point 100"},
-{ "xtitle" : "x axis title", "ytitle" : "x axis title" }
+{ "xtitle" : "x axis title", "ytitle" : "y axis title" }
 ]
